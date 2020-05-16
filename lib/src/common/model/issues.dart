@@ -10,6 +10,7 @@ class Issue {
   Issue({
     this.id,
     this.url,
+    this.commentsUrl,
     this.htmlUrl,
     this.number,
     this.state,
@@ -31,6 +32,9 @@ class Issue {
 
   /// The api url.
   String url;
+
+  @JsonKey(name: 'comments_url')
+  String commentsUrl;
 
   /// Url to the Issue Page
   @JsonKey(name: 'html_url')

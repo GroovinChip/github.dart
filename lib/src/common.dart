@@ -32,6 +32,7 @@ export 'package:github/src/common/model/repos_stats.dart';
 export 'package:github/src/common/model/repos_statuses.dart';
 export 'package:github/src/common/model/search.dart';
 export 'package:github/src/common/model/users.dart';
+export 'package:github/src/common/model/wiki_page.dart';
 export 'package:github/src/common/orgs_service.dart';
 export 'package:github/src/common/pulls_service.dart';
 export 'package:github/src/common/repos_service.dart';
