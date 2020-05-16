@@ -10,6 +10,7 @@ Issue _$IssueFromJson(Map<String, dynamic> json) {
   return Issue(
     id: json['id'] as int,
     url: json['url'] as String,
+    commentsUrl: json['comments_url'] as String,
     htmlUrl: json['html_url'] as String,
     number: json['number'] as int,
     state: json['state'] as String,
@@ -51,6 +52,7 @@ Issue _$IssueFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$IssueToJson(Issue instance) => <String, dynamic>{
       'id': instance.id,
       'url': instance.url,
+      'comments_url': instance.commentsUrl,
       'html_url': instance.htmlUrl,
       'number': instance.number,
       'state': instance.state,

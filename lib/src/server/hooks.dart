@@ -8,8 +8,7 @@ part 'hooks.g.dart';
 
 class HookMiddleware {
   // TODO: Close this, but where?
-  final StreamController<HookEvent> _eventController =
-      StreamController<HookEvent>();
+  final StreamController<HookEvent> _eventController = StreamController<HookEvent>();
   Stream<HookEvent> get onEvent => _eventController.stream;
 
   void handleHookRequest(HttpRequest request) {
@@ -29,8 +28,7 @@ class HookMiddleware {
 
     const Utf8Decoder().bind(request).join().then((content) {
       _eventController.add(HookEvent.fromJson(
-          request.headers.value('X-GitHub-Event'),
-          jsonDecode(content) as Map<String, dynamic>));
+          request.headers.value('X-GitHub-Event'), jsonDecode(content) as Map<String, dynamic>));
       request.response
         ..write(GitHubJson.encode({'handled': _eventController.hasListener}))
         ..close();
@@ -100,8 +98,7 @@ class RepositoryEvent extends HookEvent {
   Repository repository;
   User sender;
 
-  factory RepositoryEvent.fromJson(Map<String, dynamic> input) =>
-      _$RepositoryEventFromJson(input);
+  factory RepositoryEvent.fromJson(Map<String, dynamic> input) => _$RepositoryEventFromJson(input);
   Map<String, dynamic> toJson() => _$RepositoryEventToJson(this);
 }
 
@@ -130,8 +127,7 @@ class ForkEvent extends HookEvent {
   Repository forkee;
   User sender;
 
-  factory ForkEvent.fromJson(Map<String, dynamic> input) =>
-      _$ForkEventFromJson(input);
+  factory ForkEvent.fromJson(Map<String, dynamic> input) => _$ForkEventFromJson(input);
   Map<String, dynamic> toJson() => _$ForkEventToJson(this);
 }
 
@@ -152,8 +148,7 @@ class IssueEvent extends HookEvent {
   User sender;
   Repository repository;
 
-  factory IssueEvent.fromJson(Map<String, dynamic> input) =>
-      _$IssueEventFromJson(input);
+  factory IssueEvent.fromJson(Map<String, dynamic> input) => _$IssueEventFromJson(input);
   Map<String, dynamic> toJson() => _$IssueEventToJson(this);
 }
 
@@ -175,4 +170,34 @@ class PullRequestEvent extends HookEvent {
   factory PullRequestEvent.fromJson(Map<String, dynamic> input) =>
       _$PullRequestEventFromJson(input);
   Map<String, dynamic> toJson() => _$PullRequestEventToJson(this);
+}
+
+/// Triggered when a Wiki page is created or updated.
+@JsonSerializable(fieldRename: FieldRename.snake)
+class GollumEvent extends HookEvent {
+  /// The pages that were updated.
+  final dynamic pages;
+
+  GollumEvent({
+    this.pages,
+  });
+
+  factory GollumEvent.fromJson(Map<String, dynamic> input) => _$GollumEventFromJson(input);
+  Map<String, dynamic> toJson() => _$GollumEventToJson(this);
+}
+
+@JsonSerializable(fieldRename: FieldRename.snake)
+class MemberEvent extends HookEvent {
+  MemberEvent({
+    this.action,
+    this.member,
+    this.changes,
+  });
+
+  final String action;
+  final User member;
+  final Object changes;
+
+  factory MemberEvent.fromJson(Map<String, dynamic> input) => _$MemberEventFromJson(input);
+  Map<String, dynamic> toJson() => _$MemberEventToJson(this);
 }

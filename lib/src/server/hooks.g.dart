@@ -115,3 +115,31 @@ Map<String, dynamic> _$PullRequestEventToJson(PullRequestEvent instance) =>
       'sender': instance.sender,
       'repository': instance.repository,
     };
+
+GollumEvent _$GollumEventFromJson(Map<String, dynamic> json) {
+  return GollumEvent(
+    pages: json['pages'],
+  );
+}
+
+Map<String, dynamic> _$GollumEventToJson(GollumEvent instance) =>
+    <String, dynamic>{
+      'pages': instance.pages,
+    };
+
+MemberEvent _$MemberEventFromJson(Map<String, dynamic> json) {
+  return MemberEvent(
+    action: json['action'] as String,
+    member: json['member'] == null
+        ? null
+        : User.fromJson(json['member'] as Map<String, dynamic>),
+    changes: json['changes'],
+  );
+}
+
+Map<String, dynamic> _$MemberEventToJson(MemberEvent instance) =>
+    <String, dynamic>{
+      'action': instance.action,
+      'member': instance.member,
+      'changes': instance.changes,
+    };
