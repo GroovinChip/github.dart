@@ -4,7 +4,7 @@ import 'package:github/src/common.dart';
 import 'package:github/src/common/model/repos_releases.dart';
 import 'package:github/src/common/model/users.dart';
 import 'package:github/src/common/util/pagination.dart';
-import 'package:github/src/util.dart';
+import 'package:github/src/common/util/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 
@@ -203,13 +203,14 @@ class RepositoriesService extends Service {
   /// Lists the contributors of the specified repository.
   ///
   /// API docs: https://developer.github.com/v3/repos/#list-contributors
-  Stream<User> listContributors(RepositorySlug slug, {bool anon = false}) {
+  Stream<Contributor> listContributors(RepositorySlug slug,
+      {bool anon = false}) {
     ArgumentError.checkNotNull(slug);
     ArgumentError.checkNotNull(anon);
-    return PaginationHelper(github).objects<Map<String, dynamic>, User>(
+    return PaginationHelper(github).objects<Map<String, dynamic>, Contributor>(
       'GET',
       '/repos/${slug.fullName}/contributors',
-      (i) => User.fromJson(i),
+      (i) => Contributor.fromJson(i),
       params: <String, dynamic>{'anon': anon.toString()},
     );
   }
@@ -279,7 +280,7 @@ class RepositoriesService extends Service {
   /// API docs: https://developer.github.com/v3/repos/collaborators/#list
   Stream<Collaborator> listCollaborators(RepositorySlug slug) {
     ArgumentError.checkNotNull(slug);
-    return PaginationHelper(github).objects(
+    return PaginationHelper(github).objects<Map<String, dynamic>, Collaborator>(
       'GET',
       '/repos/${slug.fullName}/collaborators',
       (json) => Collaborator.fromJson(json),

@@ -4,7 +4,6 @@ import 'dart:convert' show jsonDecode;
 import 'package:http/http.dart' as http;
 
 import '../../common.dart';
-import '../../util.dart';
 
 /// Internal Helper for dealing with GitHub Pagination.
 class PaginationHelper {
@@ -89,6 +88,7 @@ class PaginationHelper {
     String body,
     int statusCode = 200,
     String preview,
+    String arrayKey,
   }) async* {
     headers ??= {};
     if (preview != null) {
@@ -96,13 +96,18 @@ class PaginationHelper {
     }
     headers.putIfAbsent('Accept', () => v3ApiMimeType);
 
-    await for (final response in fetchStreamed(method, path,
-        pages: pages,
-        headers: headers,
-        params: params,
-        body: body,
-        statusCode: statusCode)) {
-      final json = jsonDecode(response.body) as List;
+    await for (final response in fetchStreamed(
+      method,
+      path,
+      pages: pages,
+      headers: headers,
+      params: params,
+      body: body,
+      statusCode: statusCode,
+    )) {
+      final json = arrayKey == null
+          ? jsonDecode(response.body) as List
+          : (jsonDecode(response.body) as Map)[arrayKey];
 
       for (final item in json) {
         yield item as T;
@@ -110,22 +115,31 @@ class PaginationHelper {
     }
   }
 
+  /// If the response body is a JSONObject (and not a JSONArray),
+  /// use [arrayKey] to specify the key under which the array is stored.
   Stream<T> objects<S, T>(
-      String method, String path, JSONConverter<S, T> converter,
-      {int pages,
-      Map<String, String> headers,
-      Map<String, dynamic> params,
-      String body,
-      int statusCode = 200,
-      String preview}) {
-    return jsonObjects<S>(method, path,
-            pages: pages,
-            headers: headers,
-            params: params,
-            body: body,
-            statusCode: statusCode,
-            preview: preview)
-        .map(converter);
+    String method,
+    String path,
+    JSONConverter<S, T> converter, {
+    int pages,
+    Map<String, String> headers,
+    Map<String, dynamic> params,
+    String body,
+    int statusCode = 200,
+    String preview,
+    String arrayKey,
+  }) {
+    return jsonObjects<S>(
+      method,
+      path,
+      pages: pages,
+      headers: headers,
+      params: params,
+      body: body,
+      statusCode: statusCode,
+      preview: preview,
+      arrayKey: arrayKey,
+    ).map(converter);
   }
 }
 
