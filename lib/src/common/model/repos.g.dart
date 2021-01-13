@@ -40,6 +40,7 @@ Repository _$RepositoryFromJson(Map<String, dynamic> json) {
     hasIssues: json['has_issues'] as bool,
     hasWiki: json['has_wiki'] as bool,
     hasDownloads: json['has_downloads'] as bool,
+    hasPages: json['has_pages'] as bool,
     forksCount: json['forks_count'] as int,
     openIssuesCount: json['open_issues_count'] as int,
     defaultBranch: json['default_branch'] as String,
@@ -84,6 +85,7 @@ Map<String, dynamic> _$RepositoryToJson(Repository instance) =>
       'has_issues': instance.hasIssues,
       'has_wiki': instance.hasWiki,
       'has_downloads': instance.hasDownloads,
+      'has_pages': instance.hasPages,
       'forks_count': instance.forksCount,
       'open_issues_count': instance.openIssuesCount,
       'default_branch': instance.defaultBranch,
@@ -95,22 +97,6 @@ Map<String, dynamic> _$RepositoryToJson(Repository instance) =>
       'license': instance.license,
       'archived': instance.archived,
       'disabled': instance.disabled,
-    };
-
-CloneUrls _$CloneUrlsFromJson(Map<String, dynamic> json) {
-  return CloneUrls(
-    json['git'] as String,
-    json['ssh'] as String,
-    json['https'] as String,
-    json['svn'] as String,
-  );
-}
-
-Map<String, dynamic> _$CloneUrlsToJson(CloneUrls instance) => <String, dynamic>{
-      'git': instance.git,
-      'ssh': instance.ssh,
-      'https': instance.https,
-      'svn': instance.svn,
     };
 
 Tag _$TagFromJson(Map<String, dynamic> json) {

@@ -1,5 +1,22 @@
-## 6.3.0
-- Add `listCurrentUserFollowing()` function to `UsersService`
+## 7.0.4
+ - Add hasPages attribute to Repository https://github.com/SpinlockLabs/github.dart/pull/238
+
+## 7.0.3
+ - Export `languageColors` as part of the library. This is the map of github languages to their colors https://github.com/SpinlockLabs/github.dart/pull/232
+
+## 7.0.2
+ - https://github.com/SpinlockLabs/github.dart/pull/231
+
+## 7.0.1
+ - Add `getLatestRelease()` to RepositoriesService
+ - Add `listCurrentUserFollowing()` function to `UsersService`
+
+## 7.0.0
+ - Removed deprecated CloneUrls property on Repository class
+
+## 6.2.3
+ - Add twitter username to User class https://github.com/SpinlockLabs/github.dart/pull/228
+ - Improve pub.dev score
 
 ## 6.2.2
  - Fixed typo in documentation
