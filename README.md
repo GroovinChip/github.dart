@@ -12,7 +12,7 @@ Please submit issues and pull requests, help out, or just give encouragement.
 
 - Works on the Server, Browser, and Flutter
 - Really Fast
-- Plugable API
+- Pluggable API
 - Supports Authentication
 - Builtin OAuth2 Flow
 - Hook Server Helper
