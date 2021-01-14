@@ -122,6 +122,20 @@ class ActivityService extends Service {
         .objects('GET', '/users/$username/events/public', (i) => Event.fromJson(i), pages: pages);
   }
 
+  /// List the events received by the authenticated user.
+  ///
+  /// Returns event types as listed here: https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/github-event-types
+  ///
+  /// Docs: https://docs.github.com/en/free-pro-team@latest/rest/reference/activity#list-events-received-by-the-authenticated-user
+  Stream<Event> listEventsReceivedByUser(String userLogin, {int pages}) {
+    return PaginationHelper(github).objects(
+      'GET',
+      '/users/$userLogin/received_events',
+          (i) => Event.fromJson(i),
+      pages: pages,
+    );
+  }
+
   /// Returns an [EventPoller] for the user's organization dashboard.
   ///
   /// API docs: https://developer.github.com/v3/activity/events/#list-events-for-an-organization
